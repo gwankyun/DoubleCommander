@@ -56,7 +56,7 @@ end
 
 local function dc_new_tab(path)
     DC.ExecuteCommand("cm_NewTab")
-    DC.ExecuteCommand("cm_ActivateTabByIndex", "index=-1")
+    -- DC.ExecuteCommand("cm_ActivateTabByIndex", "index=-1")
     if path ~= "" then
         DC.ExecuteCommand("cm_ChangeDir", "activepath="..path)
     end
@@ -83,8 +83,9 @@ local function dc_panel(cmd, file)
     elseif string.match(cmd, "^.s") then
         if SysUtils.DirectoryExists(file) then
             dc_switch_panel()
-            DC.ExecuteCommand("cm_NewTab")
-            DC.ExecuteCommand("cm_ChangeDir", "activepath="..file)
+            -- DC.ExecuteCommand("cm_NewTab")
+            -- DC.ExecuteCommand("cm_ChangeDir", "activepath="..file)
+            dc_new_tab(file)
         end
     end
 end
@@ -96,10 +97,10 @@ end
 --     local ButPressed = Dialogs.MessageBox(file.."是文件", "Title", 0x0000)
 -- end
 
-local bAck, sAnswer = Dialogs.InputQuery("命令", "請輸入", false, "")
+local bAck, sAnswer = Dialogs.InputQuery("超級命令", "請輸入", false, "")
 if bAck then
     if string.match(sAnswer, "^s") then
-        dc_sort(sAnswer)
+        dc_sort(sAnswer) -- 排序
     elseif string.match(sAnswer, "^t") then
         dc_tab(sAnswer)
     elseif string.match(sAnswer, "^p") then

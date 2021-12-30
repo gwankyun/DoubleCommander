@@ -1,16 +1,22 @@
 local params = {...}
 local path = params[1]
+local cm = require("cm")
 
 local function parent_path(path)
     local r = string.reverse(string.sub(path, 1))
-    local b, _ = string.find(r, "\\")
-    return string.reverse(string.sub(r, b))
+    local be = string.find(r, "\\")
+    if be == nil then
+        return ""
+    else
+        local b, _ = be
+        return string.reverse(string.sub(r, b))
+    end
 end
 
--- 創建標簽
-DC.ExecuteCommand("cm_NewTab")
--- 切換到那個標簽
--- DC.ExecuteCommand("cm_ActivateTabByIndex", "index=-1")
--- 跳轉到父目錄
-DC.ExecuteCommand("cm_ChangeDir", "activepath=" .. parent_path(path))
-
+local parent = parent_path(path)
+if parent ~= "" then
+    -- 創建標簽
+    cm.new_tab()
+    -- 跳轉到父目錄
+    cm.change_dir(parent_path(path))
+end

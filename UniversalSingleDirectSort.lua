@@ -1,12 +1,4 @@
 local params = {...}
--- local column = params[1]
--- local order = params[2]
-
--- -- 排序
--- DC.ExecuteCommand("cm_UniversalSingleDirectSort",
---     "column="..column, "order="..order)
--- -- 跳轉到第一個文件
--- DC.ExecuteCommand("cm_GoToFirstFile")
 
 local function none_empty(str, value)
     if str == "" then
@@ -18,11 +10,13 @@ end
 
 local function dc_sort(cmd)
     local order = ""
-    -- local subcmd = string.sub(cmd, 2)
+    local reverse = false
     if string.match(cmd, "^.a") then
         order = "ascending"
     elseif string.match(cmd, "^.d") then
         order = "descending"
+    elseif string.match(cmd, "^.r") then
+        reverse = true
     end
 
     local column = "name"
@@ -39,12 +33,19 @@ local function dc_sort(cmd)
     end
 
     order = none_empty(order, "descending")
+    if reverse then
+        if order == "descending" then
+            order = "ascending"
+        else
+            order = "descending"
+        end
+    end
 
     DC.ExecuteCommand("cm_UniversalSingleDirectSort", "column="..column, "order="..order)
     DC.ExecuteCommand("cm_GoToFirstFile")
 end
 
-local bAck, sAnswer = Dialogs.InputQuery("超級命令", "請輸入", false, "")
+local bAck, sAnswer = Dialogs.InputQuery("排序", "排序方式（d：由新至舊 e：拓展名 n：文件名 s：由大至小，後加r倒序）", false, "")
 if bAck then
     dc_sort(sAnswer)
 end

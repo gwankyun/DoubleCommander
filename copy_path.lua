@@ -1,5 +1,5 @@
-local params = {...}
-local path = params[1]
+DC.ExecuteCommand("cm_copyfullnamestoclip")
+path = Clipbrd.GetAsText()
 
 -- 替換分隔符
 path = string.gsub(path, "\\", "/")

@@ -27,4 +27,13 @@ function cm.switch_panel()
     end
 end
 
+function cm.refresh()
+    DC.ExecuteCommand("cm_Refresh")
+end
+
+function cm.get_as_text()
+    local backup = Clipbrd.GetAsText()
+    return backup
+end
+
 return cm

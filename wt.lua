@@ -16,10 +16,25 @@ end
 if (#params >= 2) then
     local path = params[1]
     local title = params[2]
+    local color = ''
+
     if (string.len(path) == 0 or string.len(title) == 0) then
         path = full_names()
         title = last_parent(path)
     end
+
+    if (string.find(path, 'SiYuan\\data')) then
+        title = '思源'
+        color = '#dc143c'
+    elseif (string.find(path, 'sm18')) then
+        color = '#ffff00'
+    elseif (string.find(path, 'logseq')) then
+        color = '#4682b4'
+    end
+
     local cmd = string.format('wt nt -d %s --title %s', path, title)
+    if (string.len(color) > 0) then
+        cmd = string.format('%s --tabColor %s', cmd, color)
+    end
     os.execute(cmd)
 end

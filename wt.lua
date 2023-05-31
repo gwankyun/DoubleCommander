@@ -30,6 +30,8 @@ if (#params >= 2) then
         color = '#ffff00'
     elseif (string.find(path, 'logseq')) then
         color = '#4682b4'
+    elseif (string.find(path, 'CMake')) then
+        color = '#00ff00'
     end
 
     local cmd = string.format('wt nt -d %s --title %s', path, title)
